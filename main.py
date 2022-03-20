@@ -1,6 +1,5 @@
 import random
 
-from typing import Type, Dict
 from dataclasses import dataclass
 
 
@@ -20,8 +19,19 @@ class Person:
         self.base_attack = base_attack
         self.base_perc_prot = base_perc_prot
 
-    def set_thing(self):
+    def set_thing(self, things):
+        things_pers = []
+        random_index = random.randint(0, len(things) - 1)
+        for i in range(0, random.randint(1, 4)):
+            things_pers.append(things[random_index])
+            return things_pers
+
+    def attack_damage(self):
         pass
+
+    def minus_life(self):
+        return (HitPoints - (attack_damage - attack_damage
+                             * finalProtection))
 
 
 class Paladin(Person):
@@ -55,16 +65,17 @@ def create_person() -> Person:
                     'p', 'a', 's', 'd', 'f', 'g', 'h', 'j', 'k', 'l', 'z']
     persons = {'WR': Warrior, 'PL': Paladin}
     index_person = random.randint(0, len([persons.keys()]) - 1)
-    for i in range(1, 10):
-        random_index = random.randint(0, len(name_persons) - 1)
-        return persons[index_person](name_persons[random_index],
-                                     random.randint(0, 10), 2, 2)
+    random_index = random.randint(0, len(name_persons) - 1)
+    return persons[index_person](name_persons[random_index],
+                                 random.randint(0, 10), 2, 2)
 
 
 def main():
     my_things = []
     for thing in range(1, random.randint(2, 10)):
         my_things.append(create_thing())
+    for i in range(1, 10):
+        create_person().set_thing(my_things)
 
     print(f'{person_attack} наносит удар по '
           f'{person_protect} на {count_hp} урона.')
