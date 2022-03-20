@@ -6,9 +6,9 @@ from dataclasses import dataclass
 @dataclass
 class Thing:
     name_thing: str
-    perc_prot: int
-    attack: int
-    life: int
+    perc_prot: float
+    attack: float
+    life: float
 
 
 class Person:
@@ -26,12 +26,11 @@ class Person:
             things_pers.append(things[random_index])
             return things_pers
 
-    def attack_damage(self):
-        pass
+    def attack_damage(self, attack):
+        self.count_hp = self.count_hp - (attack - attack * self.get_finalProtection())
 
-    def minus_life(self):
-        return (HitPoints - (attack_damage - attack_damage
-                             * finalProtection))
+    def get_finalProtection(self):
+        pass
 
 
 class Paladin(Person):
@@ -72,13 +71,28 @@ def create_person() -> Person:
 
 def main():
     my_things = []
+    my_wars = []
     for thing in range(1, random.randint(2, 10)):
         my_things.append(create_thing())
     for i in range(1, 10):
-        create_person().set_thing(my_things)
-
-    print(f'{person_attack} наносит удар по '
-          f'{person_protect} на {count_hp} урона.')
+        my_wars.append(create_person())  # .set_thing(my_things))
+    for i in my_wars:
+        i.set_thing(my_things)
+    i = 0
+    while not len(my_wars) == 1:
+        person_attack = my_wars[random.randrange(len(my_wars) - i)]
+        person_protect = my_wars[random.randrange(len(my_wars) - i)]
+        while person_protect.count_hp > 0 and person_attack.count_hp > 0:
+            attack = (person_attack.base_attack
+                      - person_attack.base_attack
+                      * person_protect.get_finalProtection())
+            print(f'{person_attack.name_person} наносит удар по '
+                  f'{person_protect.name_person} на {person_protect.count_hp} урона.')
+        if person_attack.count_hp == 0:
+            my_wars.remove(person_attack)
+        else:
+            my_wars.remove(person_protect)
+        i += 1
 
 
 if __name__ == '__main__':
